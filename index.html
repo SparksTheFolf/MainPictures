@@ -68,12 +68,14 @@
         <h1>Nolan Trapp's Photography</h1>
     </div>
     <div class="navbar">
-        <button onclick="loadPhotos('NYC Trip')">NYC Trip</button>
+        <button onclick="loadPhotos('NYCTrip')">NYCTrip</button>
         <button onclick="loadPhotos('ONT')">ONT</button>
-        <button onclick="loadPhotos('Random Flying')">Random Flying</button>
+        <button onclick="loadPhotos('RandomFlying')">RandomFlying</button>
+        <button onclick="loadPhotos('35mm')">35mm</button>
+        <button onclick="loadPhotos('Other')">Other</button>
     </div>
     <div id="imageContainer"></div>
-    <script>
+   <script>
         async function loadPhotos(folderPath) {
             try {
                 const repositoryOwner = "SparksTheFolf";
@@ -85,15 +87,21 @@
                 const imageContainer = document.getElementById("imageContainer");
                 imageContainer.innerHTML = "";
 
-                data.forEach(item => {
-                    if (item.type === "file" && item.download_url.match(/\.(jpeg|jpg|png|gif)$/)) {
-                        const imageUrl = item.download_url;
-                        const imgElement = document.createElement("img");
-                        imgElement.src = imageUrl;
-                        imgElement.classList.add("image-item");
-                        imageContainer.appendChild(imgElement);
-                    }
-                });
+                if (data.length === 0) {
+                    const messageElement = document.createElement("p");
+                    messageElement.textContent = "No pictures were found in the folder.";
+                    imageContainer.appendChild(messageElement);
+                } else {
+                    data.forEach(item => {
+                        if (item.type === "file" && item.download_url.match(/\.(jpeg|jpg|png|gif)$/)) {
+                            const imageUrl = item.download_url;
+                            const imgElement = document.createElement("img");
+                            imgElement.src = imageUrl;
+                            imgElement.classList.add("image-item");
+                            imageContainer.appendChild(imgElement);
+                        }
+                    });
+                }
             } catch (error) {
                 console.error("Error loading photos:", error);
             }
@@ -101,7 +109,7 @@
 
         // Load default photos on website load
         window.onload = function () {
-            loadPhotos("NYC-Trip");
+            loadPhotos("NYCTrip");
         };
     </script>
 </body>
