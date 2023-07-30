@@ -78,10 +78,8 @@
    <script>
         async function loadPhotos(folderPath) {
             try {
-                const repositoryOwner = "SparksTheFolf";
-                const repositoryName = "MainPictures";
 
-                const response = await fetch(`https://api.github.com/repos/${repositoryOwner}/${repositoryName}/contents/${folderPath}`);
+                const response = await fetch(`${folderPath}`);
                 const data = await response.json();
 
                 const imageContainer = document.getElementById("imageContainer");
