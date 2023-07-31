@@ -48,9 +48,7 @@
           const img = document.createElement('img');
           img.src = `/${folderName}/${photoName}`;
           img.alt = photoName;
-
-          img.addEventListener('click', () => openPopup(`/${folderName}/${photoName}`));
-
+          img.onclick = () => openPopup(img.src);
           imageContainer.appendChild(img);
           galleryDiv.appendChild(imageContainer);
         });
@@ -60,17 +58,21 @@
       }
     }
 
-    function openPopup(imageUrl) {
+    function openPopup(imageSrc) {
       const popup = document.getElementById('popup');
       const popupImage = document.getElementById('popupImage');
-      popupImage.src = imageUrl;
+      popupImage.src = imageSrc;
       popup.style.display = 'block';
     }
-    
+
     function closePopup() {
       const popup = document.getElementById('popup');
       popup.style.display = 'none';
     }
+
+    
+
+
 
     async function loadRandomGallery() {
         const maxImages = 25;
