@@ -18,8 +18,12 @@
     </div>
   </header>
   <div id="gallery"></div>
-
-  <script>
+Make a footer to display my name and the © symbol and underneigh that, the copright notice link to my work 
+    <footer>
+        <p>© 2023 Nolan Trapp</p>
+        <p><a href="https://www.nolantrapp.com/NT-CopyrightNotice.txt">Images Copyright Notice</a></p>
+    </footer>
+    <script>
 
     async function loadGallery(folderName) {
       const galleryDiv = document.getElementById('gallery');
@@ -101,6 +105,12 @@
           galleryDiv.innerHTML = '<p>Something went wrong while fetching photos.</p>';
         }
       }
+  
+      // Load the limited gallery on page load
+      window.addEventListener('load', () => {
+        loadLimitedGallery();
+      });
+
 
   </script>
 </body>
