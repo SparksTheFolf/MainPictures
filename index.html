@@ -18,6 +18,10 @@
     </div>
   </header>
   <div id="gallery"></div>
+  <div id="modal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img id="modal-img" class="modal-content" src="" alt="Popup Image">
+  </div>
 
   <script>
 
@@ -60,7 +64,7 @@
         let totalImages = 0;
   
         try {
-          for (const currentFolder of ['NYCTrip', 'ONT', 'RandomFlying']) {
+          for (const currentFolder of [ 'ONT', 'NYCTrip', 'RandomFlying']) {
             if (totalImages >= maxTotalImages) break; // Stop loading more images
   
             const response = await fetch(`/${currentFolder}/list.txt`);
@@ -106,6 +110,22 @@
       window.addEventListener('load', () => {
         loadLimitedGallery();
       });
+
+          // Function to open the modal and display the clicked image
+    function openModal(imgSrc) {
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modal-img');
+  
+        modal.style.display = 'block';
+        modalImg.src = imgSrc;
+      }
+  
+      // Function to close the modal
+      function closeModal() {
+        const modal = document.getElementById('modal');
+        modal.style.display = 'none';
+      }
+
   </script>
 </body>
 </html>
