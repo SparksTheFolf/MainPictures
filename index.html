@@ -1,114 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Nolan Trapp's Photography</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-
-        .header {
-            margin: 30px 0;
-            position: relative;
-        }
-
-        .header-image {
-            width: 100%;
-            max-height: 300px;
-            margin-top: -30px;
-            margin-bottom: 20px;
-            background-size: cover; /* Prevent stretching and maintain aspect ratio */
-        }
-
-        .header h1 {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            margin: 0;
-            color: black; /* Change text color to black */
-            font-size: 36px;
-        }
-
-        #imageContainer {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .image-item {
-            max-width: 300px;
-            margin: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .navbar {
-            margin-top: 20px;
-        }
-
-        .navbar button {
-            margin: 5px;
-            padding: 8px 15px;
-            font-size: 16px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nolan Trapp's Photography</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+    }
+    #gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .image-container {
+      padding: 5px;
+    }
+    .image-container img {
+      max-width: 200px;
+      max-height: 200px;
+      object-fit: cover;
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Nolan Trapp's Photography</h1>
-        <div class="header-image">
-            <!-- Put your header image here -->
-            <img src="header-image.jpg" alt="Header Image" style="max-width: 100%; max-height: 100%;">
-        </div>
+  <header>
+    <h1>Nolan Trapp's Photography</h1>
+    <div>
+      <button onclick="loadGallery('NYCTrip')">NYCTrip</button>
+      <button onclick="loadGallery('ONT')">ONT</button>
+      <button onclick="loadGallery('RandomFlying')">RandomFlying</button>
+      <button onclick="loadGallery('35mm')">35mm</button>
+      <button onclick="loadGallery('Others')">Others</button>
     </div>
-    <div class="navbar">
-        <button onclick="loadPhotos('NYCTrip')">NYCTrip</button>
-        <button onclick="loadPhotos('ONT')">ONT</button>
-        <button onclick="loadPhotos('RandomFlying')">RandomFlying</button>
-        <button onclick="loadPhotos('35mm')">35mm</button>
-        <button onclick="loadPhotos('Other')">Other</button>
-    </div>
-    <div id="imageContainer"></div>
-   <script>
-        async function loadPhotos(folderPath) {
-            try {
+  </header>
+  <div id="gallery"></div>
 
-                const response = await fetch(`${folderPath}`);
-                const data = await response.json();
+  <script>
+    async function loadGallery(folderName) {
+      const galleryDiv = document.getElementById('gallery');
+      galleryDiv.innerHTML = ''; // Clear previous gallery
 
-                const imageContainer = document.getElementById("imageContainer");
-                imageContainer.innerHTML = "";
+      try {
+        const response = await fetch(`/${folderName}/list.txt`);
+        const data = await response.text();
+        const photoNames = data.split(',').map(photoName => photoName.trim());
 
-                if (data.length === 0) {
-                    const messageElement = document.createElement("p");
-                    messageElement.textContent = "No pictures were found in the folder.";
-                    imageContainer.appendChild(messageElement);
-                } else {
-                    data.forEach(item => {
-                        if (item.type === "file" && item.download_url.match(/\.(jpeg|jpg|png|gif)$/)) {
-                            const imageUrl = item.download_url;
-                            const imgElement = document.createElement("img");
-                            imgElement.src = imageUrl;
-                            imgElement.classList.add("image-item");
-                            imageContainer.appendChild(imgElement);
-                        }
-                    });
-                }
-            } catch (error) {
-                console.error("Error loading photos:", error);
-            }
+        if (photoNames.length === 0) {
+          galleryDiv.innerHTML = `<p>No photos found in the ${folderName} folder.</p>`;
+          return;
         }
 
-        // Load default photos on website load
-        window.onload = function () {
-            loadPhotos("NYCTrip");
-        };
-    </script>
+        photoNames.forEach(photoName => {
+          const imageContainer = document.createElement('div');
+          imageContainer.classList.add('image-container');
+
+          const img = document.createElement('img');
+          img.src = `/${folderName}/${photoName}`;
+          img.alt = photoName;
+
+          imageContainer.appendChild(img);
+          galleryDiv.appendChild(imageContainer);
+        });
+      } catch (error) {
+        console.error('Error fetching photo list:', error);
+        galleryDiv.innerHTML = '<p>Something went wrong while fetching photos.</p>';
+      }
+    }
+  </script>
 </body>
 </html>
