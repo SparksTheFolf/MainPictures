@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nolan Trapp's Photography</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
 </head>
 <body>
   <header>
@@ -21,6 +22,10 @@
   </header>
   <br>
   <div id="gallery"></div>
+  <div class="popup" id="popup">
+    <span class="close" onclick="closePopup()">&times;</span>
+    <img src="" alt="" id="popupImage">
+  </div>
     <script>
 
     async function loadGallery(folderName) {
@@ -45,6 +50,8 @@
           img.src = `/${folderName}/${photoName}`;
           img.alt = photoName;
 
+          img.addEventListener('click', () => openPopup(`/${folderName}/${photoName}`));
+
           imageContainer.appendChild(img);
           galleryDiv.appendChild(imageContainer);
         });
@@ -52,6 +59,18 @@
         console.error('Error fetching photo list:', error);
         galleryDiv.innerHTML = '<p>Something went wrong while fetching photos.</p>';
       }
+    }
+
+    function openPopup(imageUrl) {
+      const popup = document.getElementById('popup');
+      const popupImage = document.getElementById('popupImage');
+      popupImage.src = imageUrl;
+      popup.style.display = 'block';
+    }
+    
+    function closePopup() {
+      const popup = document.getElementById('popup');
+      popup.style.display = 'none';
     }
 
     async function loadRandomGallery() {
