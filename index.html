@@ -17,9 +17,20 @@
       <button onclick="loadGallery('35mm')">35mm</button>
       <button onclick="loadGallery('Others')">Others</button>
     </div>
+
+    <div class="gallery-buttons">
+        <button onclick="loadLimitedGallery('NYCTrip')">NYCTrip</button>
+        <button onclick="loadLimitedGallery('ONT')">ONT</button>
+        <button onclick="loadLimitedGallery('RandomFlying')">RandomFlying</button>
+      </div>
   </header>
   <br>
   <div id="gallery"></div>
+
+  <div id="modal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img id="modal-img" class="modal-content" src="" alt="Popup Image">
+  </div>
    
     <script>
 
@@ -109,6 +120,19 @@
         loadLimitedGallery();
       });
 
+      function openModal(imgSrc) {
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modal-img');
+  
+        modal.style.display = 'block';
+        modalImg.src = imgSrc;
+      }
+  
+      // Function to close the modal
+      function closeModal() {
+        const modal = document.getElementById('modal');
+        modal.style.display = 'none';
+      }
 
   </script>
 
@@ -118,7 +142,7 @@
   <footer>
     <p>© 2023 Nolan Trapp</p>
     <br>
-    <p><a href="https://photos.nolantrapp.com/NT-CopyrightNotice.txt">Images Copyright Notice</a></p>
+    <p><a href="https://photos.nolantrapp.com/NT-CopyrightNotice.txt"> Images Copyright Notice</a></p>
 </footer>
 </body>
 </html>
