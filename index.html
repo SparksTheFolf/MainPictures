@@ -34,6 +34,20 @@
    
     <script>
 
+        async function openModal(imgSrc) {
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modal-img');
+      
+            modal.style.display = 'block';
+            modalImg.src = imgSrc;
+          }
+      
+          // Function to close the modal
+          async function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.style.display = 'none';
+          }
+
     async function loadGallery(folderName) {
       const galleryDiv = document.getElementById('gallery');
       galleryDiv.innerHTML = ''; // Clear previous gallery
@@ -120,19 +134,7 @@
         loadLimitedGallery();
       });
 
-      function openModal(imgSrc) {
-        const modal = document.getElementById('modal');
-        const modalImg = document.getElementById('modal-img');
-  
-        modal.style.display = 'block';
-        modalImg.src = imgSrc;
-      }
-  
-      // Function to close the modal
-      function closeModal() {
-        const modal = document.getElementById('modal');
-        modal.style.display = 'none';
-      }
+
 
   </script>
 
