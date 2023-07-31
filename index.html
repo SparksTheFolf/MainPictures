@@ -29,6 +29,10 @@
       max-height: 200px;
       object-fit: cover;
     }
+    #gallery {
+        max-width: 800px;
+        margin: 0 auto;
+      }
   </style>
 </head>
 <body>
@@ -45,6 +49,42 @@
   <div id="gallery"></div>
 
   <script>
+
+    async function loadLimitedGallery(folderName) {
+        const maxImages = 25;
+        const galleryDiv = document.getElementById('gallery');
+        galleryDiv.innerHTML = ''; // Clear previous gallery
+  
+        try {
+          const response = await fetch(`/${folderName}/list.txt`);
+          const data = await response.text();
+          const photoNames = data.split(',').map(photoName => photoName.trim());
+  
+          if (photoNames.length === 0) {
+            galleryDiv.innerHTML = `<p>No photos found in the ${folderName} folder.</p>`;
+            return;
+          }
+  
+          const numImagesToShow = Math.min(photoNames.length, maxImages);
+          for (let i = 0; i < numImagesToShow; i++) {
+            const photoName = photoNames[i];
+  
+            const imageContainer = document.createElement('div');
+            imageContainer.classList.add('image-container');
+  
+            const img = document.createElement('img');
+            img.src = `/${folderName}/${photoName}`;
+            img.alt = photoName;
+  
+            imageContainer.appendChild(img);
+            galleryDiv.appendChild(imageContainer);
+          }
+        } catch (error) {
+          console.error('Error fetching photo list:', error);
+          galleryDiv.innerHTML = '<p>Something went wrong while fetching photos.</p>';
+        }
+      }
+
     async function loadGallery(folderName) {
       const galleryDiv = document.getElementById('gallery');
       galleryDiv.innerHTML = ''; // Clear previous gallery
