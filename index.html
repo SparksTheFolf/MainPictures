@@ -21,10 +21,6 @@
   </header>
   <br>
   <div id="gallery"></div>
-  <div class="popup" id="popup">
-    <span class="close" onclick="closePopup()">&times;</span>
-    <img src="" alt="" id="popupImage">
-  </div>
     <script>
 
     async function loadGallery(folderName) {
@@ -48,7 +44,7 @@
           const img = document.createElement('img');
           img.src = `/${folderName}/${photoName}`;
           img.alt = photoName;
-          img.onclick = () => openPopup(img.src);
+
           imageContainer.appendChild(img);
           galleryDiv.appendChild(imageContainer);
         });
@@ -57,22 +53,6 @@
         galleryDiv.innerHTML = '<p>Something went wrong while fetching photos.</p>';
       }
     }
-
-    function openPopup(imageSrc) {
-      const popup = document.getElementById('popup');
-      const popupImage = document.getElementById('popupImage');
-      popupImage.src = imageSrc;
-      popup.style.display = 'block';
-    }
-
-    function closePopup() {
-      const popup = document.getElementById('popup');
-      popup.style.display = 'none';
-    }
-
-    
-
-
 
     async function loadRandomGallery() {
         const maxImages = 25;
