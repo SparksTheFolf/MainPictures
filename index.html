@@ -18,35 +18,10 @@
       <button onclick="loadGallery('Others')">Others</button>
     </div>
 
-    <div class="gallery-buttons">
-        <button onclick="loadLimitedGallery('NYCTrip')">NYCTrip</button>
-        <button onclick="loadLimitedGallery('ONT')">ONT</button>
-        <button onclick="loadLimitedGallery('RandomFlying')">RandomFlying</button>
-      </div>
   </header>
   <br>
   <div id="gallery"></div>
-
-  <div id="modal" class="modal">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <img id="modal-img" class="modal-content" src="" alt="Popup Image">
-  </div>
-   
     <script>
-
-        async function openModal(imgSrc) {
-            const modal = document.getElementById('modal');
-            const modalImg = document.getElementById('modal-img');
-      
-            modal.style.display = 'block';
-            modalImg.src = imgSrc;
-          }
-      
-          // Function to close the modal
-          async function closeModal() {
-            const modal = document.getElementById('modal');
-            modal.style.display = 'none';
-          }
 
     async function loadGallery(folderName) {
       const galleryDiv = document.getElementById('gallery');
