@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>List Files from GitHub Repository</title>
+</head>
+<body>
+  <h1>Files in GitHub Repository</h1>
+  <ul id="fileList"></ul>
+
+  <script>
+    const repoOwner = 'SparksTheFolf';
+    const repoName = 'MainPictures';
+    const ext = 'NYCTrip';
+    const githubApiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${ext}`;
+
+    async function getRepoContents() {
+      try {
+        const response = await fetch(githubApiUrl);
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error fetching repository contents:', error);
+        return [];
+      }
+    }
+
+    function formatFileNames(files) {
+      return files.map(file => file.name).join(', ');
+    }
+
+    function displayFiles(files) {
+      const fileList = document.getElementById('fileList');
+      files.forEach((file) => {
+        const listItem = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = file.download_url;
+        link.textContent = file.name;
+        listItem.appendChild(link);
+        fileList.appendChild(listItem);
+      });
+    }
+
+    async function listFiles() {
+      const repoContents = await getRepoContents();
+      displayFiles(repoContents);
+
+      const fileNames = formatFileNames(repoContents);
+      generateListFile(fileNames);
+    }
+
+    function generateListFile(fileNames) {
+      const textFileContents = `Files in GitHub Repository:\n${fileNames}`;
+      const blob = new Blob([textFileContents], { type: 'text/plain' });
+
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'list.txt';
+      a.textContent = 'Download list.txt';
+
+      document.body.appendChild(a);
+    }
+
+    listFiles();
+  </script>
+</body>
+</html>
