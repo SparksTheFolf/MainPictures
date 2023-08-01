@@ -103,7 +103,31 @@
       
       window.addEventListener('DOMContentLoaded', loadRandomGallery);
 
-
+      function openPopup(imageUrl) {
+        const isCtrlKey = event.ctrlKey || event.metaKey; // Check if Ctrl or Command key is pressed
+        if (!isCtrlKey) {
+          const popup = document.createElement('div');
+          popup.classList.add('popup');
+      
+          const img = document.createElement('img');
+          img.src = imageUrl;
+          img.alt = 'Popup Image';
+          img.classList.add('popup-image');
+      
+          popup.appendChild(img);
+          document.body.appendChild(popup);
+      
+          // Add an event listener to close the popup when clicked outside
+          popup.addEventListener('click', () => closePopup(popup));
+        } else {
+          // If Ctrl or Command key is pressed, let the browser handle opening in a new tab
+          window.open(imageUrl, '_blank');
+        }
+      }
+      
+      function closePopup(popup) {
+        popup.remove();
+      }
 
   </script>
 
